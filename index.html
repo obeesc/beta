@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Beta Pet</title>
+    <!-- Подключаем скрипт Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--tg-theme-bg-color, #1e1e24);
+            color: var(--tg-theme-text-color, #ffffff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+        h1 { margin-top: 10px; font-size: 24px; color: #ffcc00; }
+        .stats { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
+        .pet-container {
+            width: 250px;
+            height: 250px;
+            background: #2a2a35;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            transition: transform 0.1s;
+        }
+        .pet-container:active { transform: scale(0.95); } /* Анимация при тапе */
+        #petImage {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .btn {
+            background-color: #ffcc00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
+        }
+        .btn:disabled { background-color: #555; color: #888; box-shadow: none; }
+        #loading { display: none; color: #aaa; margin-top: 10px; font-size: 14px;}
+    </style>
+</head>
+<body>
+
+    <h1>Beta Pet 🐾</h1>
+    <div class="stats">Монеты: <span id="coins">0</span> 🪙</div>
+    
+    <!-- Контейнер для тапов -->
+    <div class="pet-container" id="tapZone">
+        <img id="petImage" src="https://image.pollinations.ai/prompt/cute%20pixel%20art%20baby%20monster%20white%20background" alt="Pet">
+    </div>
+
+    <button id="evolveBtn" class="btn" disabled>Эволюция (50 🪙)</button>
+    <div id="loading">Генерация новой формы... ИИ думает 🧠</div>
+
+    <script>
+        // Инициализируем Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Игровая логика
+        let coins = 0;
+        let level = 1;
+        const evolveCost = 50;
+        
+        // Массив с идеями для эволюции (чтобы ИИ генерировал новые промпты)
+        const evolutions = [
+            "with fire wings", 
+            "wearing futuristic armor", 
+            "cyborg version with laser eyes", 
+            "ultimate god mode glowing"
+        ];
+
+        const coinsDisplay = document.getElementById('coins');
+        const tapZone = document.getElementById('tapZone');
+        const petImage = document.getElementById('petImage');
+        const evolveBtn = document.getElementById('evolveBtn');
+        const loadingText = document.getElementById('loading');
+
+        // Логика тапа (клика)
+        tapZone.addEventListener('click', () => {
+            coins++;
+            coinsDisplay.innerText = coins;
+            
+            // Если накопили на эволюцию - включаем кнопку
+            if (coins >= evolveCost && level <= evolutions.length) {
+                evolveBtn.disabled = false;
+            }
+            
+            // Легкая вибрация телефона при клике (работает в ТГ)
+            tg.HapticFeedback.impactOccurred('light');
+        });
+
+        // Логика Эволюции
+        evolveBtn.addEventListener('click', () => {
+            if (coins >= evolveCost && level <= evolutions.length) {
+                coins -= evolveCost;
+                coinsDisplay.innerText = coins;
+                evolveBtn.disabled = true;
+                
+                loadingText.style.display = 'block';
+                petImage.style.opacity = '0.5';
+
+                // Формируем новый запрос для бесплатного ИИ
+                let newTrait = evolutions[level - 1];
+                let prompt = `cute pixel art monster ${newTrait} white background high quality`;
+                let encodedPrompt = encodeURIComponent(prompt);
+                
+                // Случайный seed, чтобы картинка точно обновилась
+                let randomSeed = Math.floor(Math.random() * 10000);
+                
+                let newImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${randomSeed}`;
+
+                // Грузим новую картинку
+                petImage.src = newImageUrl;
+                
+                petImage.onload = () => {
+                    petImage.style.opacity = '1';
+                    loadingText.style.display = 'none';
+                    level++;
+                    tg.HapticFeedback.notificationOccurred('success');
+                };
+            }
+        });
+    </script>
+</body>
+</html>
