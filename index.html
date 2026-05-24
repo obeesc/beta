@@ -3,232 +3,1253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Личности Бурятии</title>
+    <title>Личности Бурятии — портал культурного наследия</title>
     <style>
         :root {
-            --bg: #1a1410;
-            --bg-card: #2a1f17;
-            --accent: #d4a24c;
-            --accent-soft: #b8862f;
-            --text: #f1e8d8;
-            --text-muted: #b3a892;
-            --border: #3d2e22;
+            --bg: #f7f4ee;
+            --bg-soft: #efeae0;
+            --surface: #ffffff;
+            --surface-2: #fbf9f4;
+            --text: #1d1a16;
+            --text-muted: #6b6256;
+            --accent: #c8923a;
+            --accent-soft: #e5b766;
+            --accent-deep: #8a5f1f;
+            --teal: #2f6470;
+            --teal-soft: #5a8a93;
+            --border: #e3dccb;
+            --shadow-sm: 0 1px 2px rgba(40, 30, 15, 0.04), 0 2px 8px rgba(40, 30, 15, 0.04);
+            --shadow-md: 0 4px 12px rgba(40, 30, 15, 0.06), 0 12px 32px rgba(40, 30, 15, 0.06);
+            --shadow-lg: 0 12px 24px rgba(40, 30, 15, 0.08), 0 24px 60px rgba(40, 30, 15, 0.10);
+            --radius: 14px;
+            --radius-sm: 10px;
+            --transition: 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #14110d;
+                --bg-soft: #1c1813;
+                --surface: #211c16;
+                --surface-2: #1a1611;
+                --text: #f1ebdc;
+                --text-muted: #a89f8d;
+                --accent: #d8a249;
+                --accent-soft: #e9bd6e;
+                --accent-deep: #b07a26;
+                --teal: #6ea6b0;
+                --teal-soft: #8fbcc4;
+                --border: #34291c;
+                --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+                --shadow-md: 0 6px 24px rgba(0,0,0,0.4);
+                --shadow-lg: 0 12px 48px rgba(0,0,0,0.55);
+            }
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: 'Inter', 'Helvetica Neue', system-ui, -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.65;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        header {
-            text-align: center;
-            padding: 80px 20px 40px;
-            background: linear-gradient(180deg, #2a1f17 0%, var(--bg) 100%);
-            border-bottom: 2px solid var(--accent-soft);
-            position: relative;
+        ::selection { background: var(--accent-soft); color: var(--text); }
+
+        /* Decorative animated background */
+        .bg-orbs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+            animation: float 18s ease-in-out infinite;
+        }
+        .orb.a { width: 380px; height: 380px; background: var(--accent-soft); top: -100px; left: -120px; }
+        .orb.b { width: 460px; height: 460px; background: var(--teal-soft); bottom: -180px; right: -160px; animation-delay: -6s; }
+        .orb.c { width: 280px; height: 280px; background: var(--accent); top: 40%; left: 60%; animation-delay: -12s; opacity: 0.18; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -30px) scale(1.05); }
+            66% { transform: translate(-30px, 40px) scale(0.95); }
         }
 
-        header::before {
-            content: '☸';
-            display: block;
-            font-size: 48px;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        h1 {
-            font-size: 42px;
-            color: var(--accent);
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-            font-weight: normal;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-style: italic;
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .intro {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 17px;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 32px 28px;
-            transition: transform 0.25s ease, border-color 0.25s ease;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
-
-        .card-years {
-            color: var(--accent);
-            font-size: 14px;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .card h2 {
-            font-size: 22px;
-            color: var(--text);
-            margin-bottom: 6px;
-            font-weight: normal;
-        }
-
-        .card-role {
-            color: var(--text-muted);
-            font-style: italic;
-            font-size: 14px;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
+        /* ====== NAVBAR ====== */
+        nav.topbar {
+            position: sticky; top: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 32px;
+            background: color-mix(in srgb, var(--bg) 78%, transparent);
+            backdrop-filter: saturate(160%) blur(14px);
+            -webkit-backdrop-filter: saturate(160%) blur(14px);
             border-bottom: 1px solid var(--border);
         }
-
-        .card p {
-            color: var(--text);
-            font-size: 15px;
-            line-height: 1.65;
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 600; letter-spacing: 0.4px; }
+        .brand .logo {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+            display: grid; place-items: center; color: white; font-size: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+        .brand span.title { font-size: 16px; }
+        .brand span.tag { font-size: 11px; color: var(--text-muted); display: block; letter-spacing: 1.2px; text-transform: uppercase; }
+        .nav-links { display: flex; align-items: center; gap: 6px; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 8px 14px;
+            border-radius: 8px; transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--text); background: var(--bg-soft); }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .btn {
+            appearance: none; border: none; cursor: pointer; font-family: inherit; font-size: 14px;
+            padding: 9px 18px; border-radius: 10px; font-weight: 500; transition: var(--transition);
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary {
+            background: var(--text); color: var(--bg);
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .btn-ghost {
+            background: transparent; color: var(--text); border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { background: var(--surface); border-color: var(--accent); }
+        .btn-icon {
+            width: 38px; height: 38px; padding: 0; justify-content: center; background: var(--surface);
+            border: 1px solid var(--border); color: var(--text);
+        }
+        .btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+        .user-chip {
+            display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 6px;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+            font-size: 13px; cursor: pointer; transition: var(--transition);
+        }
+        .user-chip:hover { border-color: var(--accent); }
+        .avatar {
+            width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--accent) 100%);
+            color: white; font-weight: 600; font-size: 12px; flex-shrink: 0;
         }
 
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            font-size: 14px;
-            border-top: 1px solid var(--border);
-            background: #15100c;
+        /* ====== HERO ====== */
+        .hero {
+            text-align: center; padding: 100px 20px 60px; max-width: 900px; margin: 0 auto;
+            animation: rise 0.9s var(--transition) both;
+        }
+        @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+        .pill {
+            display: inline-block; padding: 6px 14px; border-radius: 999px; background: var(--surface);
+            border: 1px solid var(--border); font-size: 12px; color: var(--accent-deep); letter-spacing: 1px;
+            text-transform: uppercase; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: clamp(40px, 6vw, 76px); font-weight: 500; letter-spacing: -1px;
+            line-height: 1.05; margin-bottom: 22px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(120deg, var(--accent) 0%, var(--teal) 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            font-style: italic;
+        }
+        .hero p.lead {
+            font-size: 18px; color: var(--text-muted); max-width: 640px; margin: 0 auto 32px;
+        }
+        .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        /* ====== LAYOUT ====== */
+        main {
+            max-width: 1240px; margin: 0 auto; padding: 0 32px 80px;
+            display: grid; grid-template-columns: 260px 1fr 300px; gap: 32px;
+        }
+        @media (max-width: 1100px) { main { grid-template-columns: 1fr; } .sidebar-left, .sidebar-right { order: 2; } }
+
+        section.feed { min-width: 0; }
+
+        /* ====== SIDEBARS ====== */
+        .sidebar-left, .sidebar-right { display: flex; flex-direction: column; gap: 20px; }
+        @media (min-width: 1101px) {
+            .sidebar-left, .sidebar-right { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; }
+            .sidebar-left::-webkit-scrollbar, .sidebar-right::-webkit-scrollbar { width: 0; }
         }
 
-        footer .ornament {
-            color: var(--accent);
-            font-size: 20px;
-            margin-bottom: 12px;
+        .widget {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .widget:hover { box-shadow: var(--shadow-md); }
+        .widget h3 {
+            font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
+            font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .widget h3 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+        /* Branches (categories) */
+        .branches { display: flex; flex-direction: column; gap: 4px; }
+        .branch {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; border-radius: 10px; cursor: pointer;
+            transition: var(--transition); font-size: 14px;
+        }
+        .branch:hover { background: var(--bg-soft); }
+        .branch.active { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%); color: white; }
+        .branch.active .count { background: rgba(255,255,255,0.25); color: white; }
+        .branch .label { display: flex; align-items: center; gap: 10px; }
+        .branch .ico { font-size: 16px; }
+        .branch .count {
+            font-size: 11px; padding: 2px 8px; border-radius: 999px;
+            background: var(--bg-soft); color: var(--text-muted);
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 32px; }
-            header { padding: 50px 20px 30px; }
-            main { padding: 40px 16px; }
-            .card { padding: 24px 20px; }
+        /* Quote widget */
+        .quote-widget { background: linear-gradient(135deg, var(--teal) 0%, #1e4a55 100%); color: white; }
+        .quote-widget h3 { color: rgba(255,255,255,0.8); }
+        .quote-widget h3 .dot { background: var(--accent-soft); }
+        .quote-text { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 16px; line-height: 1.55; margin-bottom: 12px; }
+        .quote-author { font-size: 12px; opacity: 0.8; }
+
+        /* Stats */
+        .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+        .stat-row:last-child { border: none; }
+        .stat-row .v { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; color: var(--accent); font-weight: 500; }
+        .stat-row .k { font-size: 12px; color: var(--text-muted); }
+
+        /* Trending */
+        .trend { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: var(--transition); }
+        .trend:last-child { border: none; }
+        .trend:hover { padding-left: 6px; }
+        .trend .num { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; color: var(--accent); font-weight: 500; line-height: 1; min-width: 22px; }
+        .trend .meta { font-size: 13px; line-height: 1.35; }
+        .trend .meta b { font-weight: 500; }
+        .trend .meta span { color: var(--text-muted); font-size: 11px; display: block; margin-top: 2px; }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+            padding: 14px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); box-shadow: var(--shadow-sm);
+        }
+        .filter-bar input {
+            flex: 1; border: none; background: transparent; outline: none; color: var(--text);
+            font-family: inherit; font-size: 14px; padding: 6px 8px;
+        }
+        .filter-bar select {
+            border: 1px solid var(--border); background: var(--bg-soft); color: var(--text);
+            border-radius: 8px; padding: 6px 10px; font-size: 13px; font-family: inherit; cursor: pointer; outline: none;
+        }
+
+        /* ====== POSTS ====== */
+        .feed-title {
+            display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px;
+        }
+        .feed-title h2 {
+            font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 28px;
+        }
+        .feed-title .meta { font-size: 13px; color: var(--text-muted); }
+
+        .post {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); margin-bottom: 22px; overflow: hidden;
+            transition: var(--transition); box-shadow: var(--shadow-sm);
+            animation: slideIn 0.5s var(--transition) both;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        .post:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 30%, var(--border)); }
+
+        .post-header { padding: 18px 22px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .post-header .info { flex: 1; }
+        .post-header .badge {
+            font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase;
+            color: var(--accent); font-weight: 600;
+        }
+        .post-header h2 {
+            font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 24px; margin-top: 2px;
+        }
+        .post-header .years { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .post-cover {
+            height: 260px; background: linear-gradient(135deg, var(--accent-soft) 0%, var(--teal-soft) 100%);
+            display: grid; place-items: center; font-family: 'Playfair Display', Georgia, serif;
+            color: white; position: relative; overflow: hidden;
+        }
+        .post-cover::after {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 50%);
+            pointer-events: none;
+        }
+        .post-cover .monogram {
+            font-size: 92px; font-weight: 400; letter-spacing: -2px;
+            text-shadow: 0 2px 24px rgba(0,0,0,0.18); position: relative; z-index: 1;
+            animation: shimmer 6s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .post-body { padding: 22px; }
+        .post-body .role { font-style: italic; color: var(--text-muted); margin-bottom: 12px; font-size: 14px; }
+        .post-body p { font-size: 15px; line-height: 1.7; }
+        .post-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+        .post-tags .tag {
+            font-size: 11px; padding: 4px 10px; border-radius: 999px;
+            background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border);
+        }
+
+        .post-actions {
+            display: flex; align-items: center; gap: 4px;
+            padding: 8px 14px; border-top: 1px solid var(--border); background: var(--surface-2);
+        }
+        .action-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 12px; border-radius: 8px; cursor: pointer;
+            background: transparent; border: none; color: var(--text-muted);
+            font-size: 13px; font-family: inherit; transition: var(--transition);
+        }
+        .action-btn:hover { background: var(--bg-soft); color: var(--text); }
+        .action-btn.liked { color: #e85a4f; }
+        .action-btn.liked .heart { animation: pop 0.4s var(--transition); }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.45); }
+            100% { transform: scale(1); }
+        }
+
+        .heart, .ico-svg { width: 18px; height: 18px; stroke-width: 1.8; }
+
+        /* Comments */
+        .comments { padding: 0 22px 22px; border-top: 1px solid var(--border); display: none; }
+        .comments.open { display: block; animation: fadeIn 0.35s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .comment-form { display: flex; gap: 10px; padding: 16px 0; align-items: flex-start; }
+        .comment-form textarea {
+            flex: 1; min-height: 64px; resize: vertical; padding: 10px 12px; font-family: inherit;
+            font-size: 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2);
+            color: var(--text); outline: none; transition: var(--transition);
+        }
+        .comment-form textarea:focus { border-color: var(--accent); background: var(--surface); }
+        .comment-form .send {
+            align-self: stretch; padding: 0 16px; background: var(--text); color: var(--bg);
+            border: none; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 14px;
+            transition: var(--transition);
+        }
+        .comment-form .send:hover { transform: translateY(-1px); }
+        .comment-form .send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .comment-list { display: flex; flex-direction: column; gap: 12px; }
+        .comment {
+            display: flex; gap: 10px; padding: 12px; background: var(--surface-2);
+            border-radius: 10px; border: 1px solid var(--border);
+            animation: slideIn 0.4s ease;
+        }
+        .comment .body { flex: 1; min-width: 0; }
+        .comment .head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 13px; }
+        .comment .head b { font-weight: 600; }
+        .comment .head time { color: var(--text-muted); font-size: 11px; }
+        .comment .text { font-size: 14px; line-height: 1.55; word-break: break-word; }
+
+        .login-cta {
+            padding: 14px; background: var(--bg-soft); border: 1px dashed var(--border);
+            border-radius: 10px; text-align: center; color: var(--text-muted); font-size: 14px;
+        }
+        .login-cta a { color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+        /* ====== MODAL ====== */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(20, 14, 6, 0.55); z-index: 100;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .modal-backdrop.open { display: flex; animation: fadeIn 0.25s ease; }
+        .modal {
+            background: var(--surface); border-radius: 18px; max-width: 420px; width: 100%;
+            box-shadow: var(--shadow-lg); padding: 32px; border: 1px solid var(--border);
+            animation: modalIn 0.4s var(--transition);
+        }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: none; } }
+        .modal h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 26px; margin-bottom: 6px; }
+        .modal p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 22px; }
+        .tab-row { display: flex; gap: 6px; background: var(--bg-soft); padding: 4px; border-radius: 10px; margin-bottom: 20px; }
+        .tab-row button {
+            flex: 1; padding: 8px 12px; border: none; background: transparent; color: var(--text-muted);
+            border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 13px; transition: var(--transition);
+        }
+        .tab-row button.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.4px; }
+        .field input {
+            width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px;
+            font-family: inherit; font-size: 14px; background: var(--surface-2); color: var(--text); outline: none;
+            transition: var(--transition);
+        }
+        .field input:focus { border-color: var(--accent); background: var(--surface); }
+        .modal .btn-primary { width: 100%; justify-content: center; padding: 12px; margin-top: 8px; }
+        .modal .err { color: #c84747; font-size: 13px; margin-top: 8px; min-height: 18px; }
+        .modal .close {
+            position: absolute; top: 14px; right: 14px; background: transparent; border: none;
+            color: var(--text-muted); cursor: pointer; font-size: 22px; padding: 6px;
+        }
+        .modal-wrap { position: relative; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120%);
+            background: var(--text); color: var(--bg); padding: 12px 20px; border-radius: 10px;
+            font-size: 14px; box-shadow: var(--shadow-lg); z-index: 200; transition: transform 0.35s var(--transition);
+            max-width: 92vw;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* User menu */
+        .menu {
+            position: absolute; top: 56px; right: 32px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; box-shadow: var(--shadow-md); padding: 6px; min-width: 200px;
+            display: none; z-index: 60; animation: modalIn 0.25s ease;
+        }
+        .menu.open { display: block; }
+        .menu .item {
+            padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--text);
+            transition: var(--transition); display: flex; align-items: center; gap: 10px;
+        }
+        .menu .item:hover { background: var(--bg-soft); }
+        .menu .item.danger:hover { background: #fdecec; color: #c84747; }
+        .menu hr { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+        .menu .head { padding: 12px; font-size: 13px; }
+        .menu .head b { display: block; }
+        .menu .head span { color: var(--text-muted); font-size: 12px; }
+
+        /* Footer */
+        footer.site {
+            text-align: center; padding: 60px 20px 40px; color: var(--text-muted); font-size: 13px;
+            border-top: 1px solid var(--border); background: var(--surface-2);
+        }
+        footer.site .orn { font-size: 24px; color: var(--accent); margin-bottom: 12px; }
+        footer.site a { color: var(--accent); text-decoration: none; }
+
+        /* Scroll progress */
+        .progress {
+            position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--teal));
+            z-index: 99; transition: width 0.1s linear; width: 0;
+        }
+
+        /* Empty state */
+        .empty { padding: 40px 20px; text-align: center; color: var(--text-muted); }
+        .empty .big { font-size: 42px; margin-bottom: 12px; opacity: 0.4; }
+
+        @media (max-width: 720px) {
+            nav.topbar { padding: 12px 16px; }
+            .nav-links { display: none; }
+            main { padding: 0 16px 60px; }
+            .hero { padding: 60px 16px 40px; }
+            .post-header h2 { font-size: 20px; }
+            .post-cover { height: 200px; }
+            .post-cover .monogram { font-size: 70px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Личности Бурятии</h1>
-        <p class="subtitle">Выдающиеся люди, прославившие землю у Байкала</p>
-    </header>
+    <div class="progress" id="progress"></div>
+    <div class="bg-orbs">
+        <div class="orb a"></div>
+        <div class="orb b"></div>
+        <div class="orb c"></div>
+    </div>
+
+    <nav class="topbar">
+        <div class="brand">
+            <div class="logo">☸</div>
+            <div>
+                <span class="title">Эхэ Нютаг</span>
+                <span class="tag">Личности Бурятии</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#feed">Лента</a>
+            <a href="#branches">Ветки</a>
+            <a href="#about">О проекте</a>
+        </div>
+        <div class="nav-right" id="navRight">
+            <button class="btn btn-icon" id="themeBtn" title="Тема">🌓</button>
+            <button class="btn btn-ghost" id="loginBtn">Войти</button>
+            <button class="btn btn-primary" id="registerBtn">Регистрация</button>
+        </div>
+    </nav>
+
+    <div class="menu" id="userMenu"></div>
+
+    <section class="hero">
+        <span class="pill">Культурное наследие · 2026</span>
+        <h1>Земля у Байкала<br>и её <span class="gradient">великие имена</span></h1>
+        <p class="lead">
+            Открытый портал о выдающихся людях Бурятии — учёных, художниках, духовных
+            учителях. Читайте, обсуждайте, делитесь и оставляйте след в общей памяти.
+        </p>
+        <div class="hero-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('feed').scrollIntoView({behavior:'smooth'})">
+                Открыть ленту →
+            </button>
+            <button class="btn btn-ghost" onclick="document.getElementById('branches').scrollIntoView({behavior:'smooth'})">
+                Все ветки
+            </button>
+        </div>
+    </section>
 
     <main>
-        <p class="intro">
-            Бурятия — край, давший миру духовных учителей, художников, учёных и мастеров слова.
-            Здесь собраны имена тех, чьё наследие продолжает вдохновлять.
-        </p>
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar-left" id="branches">
+            <div class="widget">
+                <h3><span class="dot"></span> Ветки</h3>
+                <div class="branches" id="branchList"></div>
+            </div>
 
-        <div class="grid">
-            <article class="card">
-                <div class="card-years">1852 — 1927</div>
-                <h2>Агван Доржиев</h2>
-                <div class="card-role">Буддийский лама, дипломат, просветитель</div>
-                <p>
-                    Учитель Далай-ламы XIII, дипломат при дворе Российской империи.
-                    Инициатор строительства буддийского храма в Санкт-Петербурге —
-                    первого в Европе. Автор бурятского алфавита «вагиндра».
-                </p>
-            </article>
+            <div class="widget">
+                <h3><span class="dot"></span> Статистика</h3>
+                <div class="stat-row"><span class="k">Личностей</span><span class="v" id="statPeople">—</span></div>
+                <div class="stat-row"><span class="k">Лайков</span><span class="v" id="statLikes">—</span></div>
+                <div class="stat-row"><span class="k">Комментариев</span><span class="v" id="statComments">—</span></div>
+                <div class="stat-row"><span class="k">Участников</span><span class="v" id="statUsers">—</span></div>
+            </div>
+        </aside>
 
-            <article class="card">
-                <div class="card-years">1852 — 1927</div>
-                <h2>Хамбо лама Итигэлов</h2>
-                <div class="card-role">XII Пандито Хамбо лама</div>
-                <p>
-                    Глава буддистов Восточной Сибири, ушедший в медитацию в 1927 году.
-                    Его тело, поднятое из земли в 2002 году, по сей день остаётся
-                    нетленным — феномен, изучаемый учёными по всему миру.
-                </p>
-            </article>
+        <!-- FEED -->
+        <section class="feed" id="feed">
+            <div class="filter-bar">
+                <svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="searchInput" placeholder="Поиск по именам, эпохам, темам…">
+                <select id="sortSelect">
+                    <option value="popular">Популярные</option>
+                    <option value="new">Новые</option>
+                    <option value="oldest">Хронология</option>
+                    <option value="commented">Обсуждаемые</option>
+                </select>
+            </div>
 
-            <article class="card">
-                <div class="card-years">1889 — 1959</div>
-                <h2>Хоца Намсараев</h2>
-                <div class="card-role">Писатель, основоположник бурятской литературы</div>
-                <p>
-                    Народный поэт Бурятии, драматург и прозаик. Его сказы, поэмы
-                    и пьесы стали фундаментом современной литературы республики.
-                    Имя классика носит Бурятский академический театр драмы.
-                </p>
-            </article>
+            <div class="feed-title">
+                <h2 id="feedTitle">Все ветки</h2>
+                <div class="meta" id="feedMeta"></div>
+            </div>
 
-            <article class="card">
-                <div class="card-years">1948 — 1971</div>
-                <h2>Намжил Нимбуев</h2>
-                <div class="card-role">Поэт</div>
-                <p>
-                    Лирик с трагически короткой судьбой — ушёл из жизни в 23 года,
-                    оставив после себя стихи невероятной глубины. Его «Стреноженные
-                    молнии» стали визитной карточкой бурятской поэзии XX века.
-                </p>
-            </article>
+            <div id="postList"></div>
+        </section>
 
-            <article class="card">
-                <div class="card-years">р. 1967</div>
-                <h2>Даши Намдаков</h2>
-                <div class="card-role">Скульптор, художник</div>
-                <p>
-                    Всемирно известный мастер, чьи бронзовые работы выставлены
-                    в Лондоне, Нью-Йорке и Москве. Соединяет древние степные
-                    мотивы с современной пластикой. Член Российской академии художеств.
-                </p>
-            </article>
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar-right">
+            <div class="widget quote-widget" id="quoteWidget">
+                <h3><span class="dot"></span> Слово дня</h3>
+                <div class="quote-text" id="quoteText"></div>
+                <div class="quote-author" id="quoteAuthor"></div>
+            </div>
 
-            <article class="card">
-                <div class="card-years">р. 1949</div>
-                <h2>Баир Дугаров</h2>
-                <div class="card-role">Поэт, учёный-востоковед</div>
-                <p>
-                    Народный поэт Бурятии, доктор филологических наук.
-                    Исследователь бурятского эпоса и шаманских традиций.
-                    Лауреат государственных премий за вклад в литературу.
-                </p>
-            </article>
-        </div>
+            <div class="widget">
+                <h3><span class="dot"></span> Сейчас обсуждают</h3>
+                <div id="trendList"></div>
+            </div>
+
+            <div class="widget">
+                <h3><span class="dot"></span> На Байкале</h3>
+                <div id="weatherWidget">
+                    <div style="display:flex;align-items:center;gap:14px;">
+                        <div style="font-size:42px;line-height:1;" id="weatherIcon">❄️</div>
+                        <div>
+                            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--accent);" id="weatherTemp">−7°</div>
+                            <div style="font-size:12px;color:var(--text-muted);" id="weatherDesc">Улан-Удэ · ясно</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:11px;color:var(--text-muted);">
+                        <span>Ветер 3 м/с</span><span>Влажность 62%</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </main>
 
-    <footer>
-        <div class="ornament">❋</div>
-        <div>Эхэ нютаг — родная земля</div>
+    <footer class="site" id="about">
+        <div class="orn">❋</div>
+        <div><b>Эхэ нютаг</b> — родная земля</div>
+        <div style="margin-top:8px;opacity:0.7;">Открытый проект, посвящённый памяти выдающихся людей Бурятии</div>
     </footer>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-backdrop" id="authModal">
+        <div class="modal-wrap">
+            <div class="modal">
+                <button class="close" onclick="closeAuth()">×</button>
+                <h2 id="authTitle">Войти</h2>
+                <p class="sub" id="authSub">Рады видеть вас снова</p>
+                <div class="tab-row">
+                    <button id="tabLogin" class="active" onclick="setAuthTab('login')">Вход</button>
+                    <button id="tabRegister" onclick="setAuthTab('register')">Регистрация</button>
+                </div>
+                <form id="authForm" onsubmit="return submitAuth(event)">
+                    <div class="field" id="nameField" style="display:none;">
+                        <label>Имя</label>
+                        <input type="text" id="authName" placeholder="Как к вам обращаться?" autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" id="authEmail" placeholder="вы@example.com" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label>Пароль</label>
+                        <input type="password" id="authPassword" placeholder="••••••••" required minlength="4" autocomplete="current-password">
+                    </div>
+                    <div class="err" id="authErr"></div>
+                    <button type="submit" class="btn btn-primary" id="authSubmit">Войти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // =========================================================================
+    // DATA
+    // =========================================================================
+    const BRANCHES = [
+        { id: 'all',       name: 'Все ветки',      icon: '☸' },
+        { id: 'spiritual', name: 'Духовные',       icon: '🪷' },
+        { id: 'literature',name: 'Литература',     icon: '📜' },
+        { id: 'arts',      name: 'Искусство',      icon: '🎨' },
+        { id: 'science',   name: 'Наука',          icon: '🔬' },
+        { id: 'music',     name: 'Музыка',         icon: '🎵' },
+        { id: 'sport',     name: 'Спорт',          icon: '🏔' },
+        { id: 'cinema',    name: 'Кино и театр',   icon: '🎭' },
+    ];
+
+    const PEOPLE = [
+        {
+            id: 'dorzhiev',
+            name: 'Агван Доржиев',
+            years: '1854 — 1938',
+            era: 1854,
+            role: 'Буддийский лама, дипломат, просветитель',
+            branch: 'spiritual',
+            tags: ['буддизм', 'дипломатия', 'просвещение'],
+            text: 'Учитель Далай-ламы XIII, дипломат при дворе Российской империи. Инициатор строительства буддийского храма в Санкт-Петербурге — первого в Европе. Автор бурятского алфавита «вагиндра», основанного на старомонгольской письменности.',
+            featured: true,
+        },
+        {
+            id: 'itigelov',
+            name: 'Хамбо лама Итигэлов',
+            years: '1852 — 1927',
+            era: 1852,
+            role: 'XII Пандито Хамбо лама',
+            branch: 'spiritual',
+            tags: ['буддизм', 'феномен', 'медитация'],
+            text: 'Глава буддистов Восточной Сибири, ушедший в медитацию в 1927 году. Его тело, поднятое из земли в 2002 году, по сей день остаётся в состоянии, не объяснимом современной наукой — феномен изучается исследователями по всему миру.',
+        },
+        {
+            id: 'namsaraev',
+            name: 'Хоца Намсараев',
+            years: '1889 — 1959',
+            era: 1889,
+            role: 'Писатель, основоположник бурятской литературы',
+            branch: 'literature',
+            tags: ['литература', 'драматургия', 'классика'],
+            text: 'Народный поэт Бурятии, драматург и прозаик. Его сказы, поэмы и пьесы стали фундаментом современной литературы республики. Имя классика носит Бурятский академический театр драмы в Улан-Удэ.',
+        },
+        {
+            id: 'nimbuyev',
+            name: 'Намжил Нимбуев',
+            years: '1948 — 1971',
+            era: 1948,
+            role: 'Поэт',
+            branch: 'literature',
+            tags: ['поэзия', 'XX век', 'лирика'],
+            text: 'Лирик с трагически короткой судьбой — ушёл из жизни в 23 года, оставив после себя стихи невероятной глубины. Его «Стреноженные молнии» стали визитной карточкой бурятской поэзии XX века.',
+        },
+        {
+            id: 'namdakov',
+            name: 'Даши Намдаков',
+            years: 'р. 1967',
+            era: 1967,
+            role: 'Скульптор, художник',
+            branch: 'arts',
+            tags: ['скульптура', 'современное искусство'],
+            text: 'Всемирно известный мастер, чьи бронзовые работы выставлены в Лондоне, Нью-Йорке и Москве. Соединяет древние степные мотивы с современной пластикой. Член Российской академии художеств.',
+            featured: true,
+        },
+        {
+            id: 'dugarov',
+            name: 'Баир Дугаров',
+            years: 'р. 1947',
+            era: 1947,
+            role: 'Поэт, учёный-востоковед',
+            branch: 'literature',
+            tags: ['поэзия', 'востоковедение', 'эпос'],
+            text: 'Народный поэт Бурятии, доктор филологических наук. Исследователь бурятского эпоса и шаманских традиций. Лауреат государственных премий за вклад в литературу и культуру.',
+        },
+        {
+            id: 'sakhyanova',
+            name: 'Лариса Сахьянова',
+            years: '1930 — 2001',
+            era: 1930,
+            role: 'Балерина, народная артистка СССР',
+            branch: 'arts',
+            tags: ['балет', 'танец', 'СССР'],
+            text: 'Прима Бурятского театра оперы и балета, одна из величайших танцовщиц своего времени. Её исполнение партий в «Лебедином озере» и «Жизели» стало эталоном для целого поколения артистов.',
+        },
+        {
+            id: 'tsydenzhapov',
+            name: 'Алдар Цыденжапов',
+            years: '1991 — 2010',
+            era: 1991,
+            role: 'Матрос, Герой Российской Федерации',
+            branch: 'science',
+            tags: ['героизм', 'флот', 'современность'],
+            text: 'Матрос Тихоокеанского флота, ценой собственной жизни спасший экипаж эсминца «Быстрый» во время аварии. Звание Героя присвоено посмертно — пример мужества, который изучают в школах.',
+        },
+        {
+            id: 'banzarov',
+            name: 'Доржи Банзаров',
+            years: '1822 — 1855',
+            era: 1822,
+            role: 'Первый бурятский учёный-востоковед',
+            branch: 'science',
+            tags: ['наука', 'XIX век', 'востоковедение'],
+            text: 'Первый бурят, получивший европейское университетское образование. Выпускник Казанского университета. Его магистерская диссертация «Чёрная вера, или Шаманство у монголов» — классический труд монголоведения.',
+        },
+        {
+            id: 'arkhincheev',
+            name: 'Ким Архинчеев',
+            years: '1924 — 2007',
+            era: 1924,
+            role: 'Композитор, дирижёр',
+            branch: 'music',
+            tags: ['музыка', 'симфония', 'фольклор'],
+            text: 'Один из создателей бурятской симфонической школы. Соединял мелодии степных напевов с европейской классической формой. Автор балетов, симфоний и многих хоровых произведений.',
+        },
+        {
+            id: 'rinchino',
+            name: 'Элбэг-Доржи Ринчино',
+            years: '1888 — 1938',
+            era: 1888,
+            role: 'Политик, учёный, революционер',
+            branch: 'science',
+            tags: ['политика', 'история', 'XX век'],
+            text: 'Один из идеологов создания Бурятской автономии. Учёный-монголовед, общественный деятель. Сыграл ключевую роль в формировании национальной государственности в начале XX века.',
+        },
+        {
+            id: 'lkhasaranov',
+            name: 'Лхасаран Линховоин',
+            years: '1924 — 1980',
+            era: 1924,
+            role: 'Оперный певец, бас',
+            branch: 'music',
+            tags: ['опера', 'вокал', 'СССР'],
+            text: 'Народный артист СССР, бас исключительной красоты. Солист Бурятского театра оперы и балета. Прославился исполнением партий Бориса Годунова и Кончака — его записи хранятся в золотом фонде.',
+        },
+    ];
+
+    const QUOTES = [
+        { text: 'Земля, где родился — золотая колыбель.', author: 'Бурятская пословица' },
+        { text: 'Слово, как стрела: выпустив, не вернёшь.', author: 'Бурятская мудрость' },
+        { text: 'Гора высока, да человек выше — мыслью своей.', author: 'Намжил Нимбуев' },
+        { text: 'Истина не в словах, а в молчании, что между ними.', author: 'Учение лам' },
+        { text: 'Степь забывает многое, но имена помнит вечно.', author: 'Хоца Намсараев' },
+    ];
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    const STORE = {
+        users: 'eh_users',
+        session: 'eh_session',
+        likes: 'eh_likes',
+        comments: 'eh_comments',
+        theme: 'eh_theme',
+    };
+
+    let state = {
+        users: JSON.parse(localStorage.getItem(STORE.users) || '{}'),
+        session: JSON.parse(localStorage.getItem(STORE.session) || 'null'),
+        likes: JSON.parse(localStorage.getItem(STORE.likes) || '{}'),       // { postId: { count, users: [emails] } }
+        comments: JSON.parse(localStorage.getItem(STORE.comments) || '{}'), // { postId: [ {id, author, email, text, ts} ] }
+        currentBranch: 'all',
+        search: '',
+        sort: 'popular',
+        authMode: 'login',
+    };
+
+    function save(key) { localStorage.setItem(STORE[key], JSON.stringify(state[key])); }
+
+    // Initialize likes if missing
+    PEOPLE.forEach(p => {
+        if (!state.likes[p.id]) state.likes[p.id] = { count: Math.floor(Math.random() * 38) + 12, users: [] };
+        if (!state.comments[p.id]) state.comments[p.id] = [];
+    });
+    save('likes'); save('comments');
+
+    // =========================================================================
+    // HELPERS
+    // =========================================================================
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
+
+    function initials(name) {
+        return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    }
+    function monogram(name) {
+        const parts = name.split(' ').filter(Boolean);
+        return parts.length >= 2 ? parts[0][0] + parts[1][0] : parts[0].slice(0, 2);
+    }
+    function fmtTime(ts) {
+        const d = new Date(ts), now = Date.now(), diff = Math.floor((now - ts) / 1000);
+        if (diff < 60) return 'только что';
+        if (diff < 3600) return Math.floor(diff / 60) + ' мин назад';
+        if (diff < 86400) return Math.floor(diff / 3600) + ' ч назад';
+        if (diff < 2592000) return Math.floor(diff / 86400) + ' дн назад';
+        return d.toLocaleDateString('ru-RU');
+    }
+    function toast(msg) {
+        const t = $('#toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window._toastT);
+        window._toastT = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    }
+
+    // =========================================================================
+    // RENDER
+    // =========================================================================
+    function renderBranches() {
+        const counts = {};
+        PEOPLE.forEach(p => { counts[p.branch] = (counts[p.branch] || 0) + 1; });
+        counts.all = PEOPLE.length;
+
+        const el = $('#branchList');
+        el.innerHTML = BRANCHES.map(b => `
+            <div class="branch ${state.currentBranch === b.id ? 'active' : ''}" data-id="${b.id}">
+                <span class="label"><span class="ico">${b.icon}</span>${b.name}</span>
+                <span class="count">${counts[b.id] || 0}</span>
+            </div>
+        `).join('');
+        el.querySelectorAll('.branch').forEach(node => {
+            node.addEventListener('click', () => {
+                state.currentBranch = node.dataset.id;
+                renderBranches();
+                renderFeed();
+                $('#feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    }
+
+    function getFilteredPosts() {
+        let posts = PEOPLE.slice();
+        if (state.currentBranch !== 'all') posts = posts.filter(p => p.branch === state.currentBranch);
+        if (state.search) {
+            const q = state.search.toLowerCase();
+            posts = posts.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                p.role.toLowerCase().includes(q) ||
+                p.text.toLowerCase().includes(q) ||
+                p.tags.some(t => t.toLowerCase().includes(q))
+            );
+        }
+        switch (state.sort) {
+            case 'popular': posts.sort((a,b) => (state.likes[b.id]?.count || 0) - (state.likes[a.id]?.count || 0)); break;
+            case 'new': posts.sort((a,b) => b.era - a.era); break;
+            case 'oldest': posts.sort((a,b) => a.era - b.era); break;
+            case 'commented': posts.sort((a,b) => (state.comments[b.id]?.length || 0) - (state.comments[a.id]?.length || 0)); break;
+        }
+        return posts;
+    }
+
+    function renderFeed() {
+        const branch = BRANCHES.find(b => b.id === state.currentBranch);
+        $('#feedTitle').textContent = branch ? branch.name : 'Все ветки';
+
+        const posts = getFilteredPosts();
+        $('#feedMeta').textContent = posts.length + ' ' + plural(posts.length, ['публикация','публикации','публикаций']);
+
+        const el = $('#postList');
+        if (posts.length === 0) {
+            el.innerHTML = `<div class="empty"><div class="big">∅</div>Ничего не найдено. Попробуйте изменить запрос.</div>`;
+            return;
+        }
+        el.innerHTML = posts.map((p, i) => postHtml(p, i)).join('');
+        bindPostHandlers();
+    }
+
+    function plural(n, forms) {
+        const mod10 = n % 10, mod100 = n % 100;
+        if (mod10 === 1 && mod100 !== 11) return forms[0];
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return forms[1];
+        return forms[2];
+    }
+
+    function postHtml(p, idx) {
+        const likes = state.likes[p.id] || { count: 0, users: [] };
+        const comments = state.comments[p.id] || [];
+        const liked = state.session && likes.users.includes(state.session.email);
+        const branch = BRANCHES.find(b => b.id === p.branch);
+        return `
+        <article class="post" data-id="${p.id}" style="animation-delay:${idx * 60}ms">
+            <div class="post-header">
+                <div class="avatar" style="width:42px;height:42px;font-size:14px;">${escapeHtml(initials(p.name))}</div>
+                <div class="info">
+                    <div class="badge">${branch?.icon || '☸'} ${branch?.name || ''}</div>
+                    <h2>${escapeHtml(p.name)}</h2>
+                    <div class="years">${escapeHtml(p.years)} · ${escapeHtml(p.role)}</div>
+                </div>
+                ${p.featured ? '<div style="font-size:11px;color:var(--accent);letter-spacing:1px;padding:6px 10px;border:1px solid var(--accent);border-radius:999px;">★ ИЗБРАННОЕ</div>' : ''}
+            </div>
+            <div class="post-cover" style="background: linear-gradient(135deg, ${gradientFor(p.id)});">
+                <div class="monogram">${escapeHtml(monogram(p.name))}</div>
+            </div>
+            <div class="post-body">
+                <p>${escapeHtml(p.text)}</p>
+                <div class="post-tags">
+                    ${p.tags.map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join('')}
+                </div>
+            </div>
+            <div class="post-actions">
+                <button class="action-btn like-btn ${liked ? 'liked' : ''}" data-id="${p.id}">
+                    <svg class="heart" viewBox="0 0 24 24" fill="${liked ? 'currentColor' : 'none'}" stroke="currentColor">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    <span class="like-count">${likes.count}</span>
+                </button>
+                <button class="action-btn comment-btn" data-id="${p.id}">
+                    <svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>${comments.length}</span>
+                </button>
+                <button class="action-btn share-btn" data-id="${p.id}">
+                    <svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    Поделиться
+                </button>
+                <button class="action-btn save-btn" data-id="${p.id}" style="margin-left:auto;">
+                    <svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="comments" id="comments-${p.id}">
+                ${commentsBlock(p.id)}
+            </div>
+        </article>`;
+    }
+
+    const GRADIENTS = [
+        '#c8923a 0%, #2f6470 100%',
+        '#5a8a93 0%, #c8923a 100%',
+        '#8a5f1f 0%, #5a8a93 100%',
+        '#2f6470 0%, #e5b766 100%',
+        '#e5b766 0%, #2f6470 100%',
+        '#c8923a 0%, #8a5f1f 100%',
+    ];
+    function gradientFor(id) {
+        let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+        return GRADIENTS[h % GRADIENTS.length];
+    }
+
+    function commentsBlock(postId) {
+        const comments = state.comments[postId] || [];
+        const user = state.session;
+        return `
+            ${user ? `
+                <div class="comment-form">
+                    <div class="avatar" title="${escapeHtml(user.name)}">${escapeHtml(initials(user.name))}</div>
+                    <textarea placeholder="Поделитесь мыслью…" data-id="${postId}" class="comment-input" maxlength="500"></textarea>
+                    <button class="send" data-id="${postId}">Отправить</button>
+                </div>
+            ` : `
+                <div class="login-cta" style="margin: 16px 0;">
+                    <a onclick="openAuth('login')">Войдите</a>, чтобы оставить комментарий
+                </div>
+            `}
+            <div class="comment-list">
+                ${comments.slice().reverse().map(c => `
+                    <div class="comment">
+                        <div class="avatar" style="width:32px;height:32px;font-size:11px;">${escapeHtml(initials(c.author))}</div>
+                        <div class="body">
+                            <div class="head"><b>${escapeHtml(c.author)}</b><time>${fmtTime(c.ts)}</time></div>
+                            <div class="text">${escapeHtml(c.text)}</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function bindPostHandlers() {
+        $$('.like-btn').forEach(b => b.addEventListener('click', () => onLike(b.dataset.id)));
+        $$('.comment-btn').forEach(b => b.addEventListener('click', () => toggleComments(b.dataset.id)));
+        $$('.share-btn').forEach(b => b.addEventListener('click', () => onShare(b.dataset.id)));
+        $$('.save-btn').forEach(b => b.addEventListener('click', () => toast('Сохранено в закладках')));
+        $$('.comment-input').forEach(t => {
+            t.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault(); onSendComment(t.dataset.id);
+                }
+            });
+        });
+        $$('.comments .send').forEach(b => b.addEventListener('click', () => onSendComment(b.dataset.id)));
+    }
+
+    function onLike(postId) {
+        if (!state.session) { openAuth('login'); toast('Войдите, чтобы лайкать публикации'); return; }
+        const likes = state.likes[postId];
+        const email = state.session.email;
+        const idx = likes.users.indexOf(email);
+        if (idx >= 0) { likes.users.splice(idx, 1); likes.count = Math.max(0, likes.count - 1); }
+        else { likes.users.push(email); likes.count++; }
+        save('likes');
+        renderFeed(); renderStats(); renderTrending();
+    }
+
+    function toggleComments(postId) {
+        const el = $('#comments-' + postId);
+        if (!el) return;
+        el.classList.toggle('open');
+    }
+
+    function onSendComment(postId) {
+        if (!state.session) { openAuth('login'); return; }
+        const input = document.querySelector(`.comment-input[data-id="${postId}"]`);
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+        state.comments[postId].push({
+            id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
+            author: state.session.name,
+            email: state.session.email,
+            text,
+            ts: Date.now(),
+        });
+        save('comments');
+        input.value = '';
+        renderFeed(); renderStats(); renderTrending();
+        // Re-open the comments panel after re-render
+        const panel = $('#comments-' + postId);
+        if (panel) panel.classList.add('open');
+        toast('Комментарий добавлен');
+    }
+
+    function onShare(postId) {
+        const p = PEOPLE.find(x => x.id === postId);
+        const url = location.origin + location.pathname + '#' + postId;
+        if (navigator.share) {
+            navigator.share({ title: p.name, text: p.role, url }).catch(()=>{});
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url); toast('Ссылка скопирована');
+        } else {
+            toast('Ссылка: ' + url);
+        }
+    }
+
+    function renderStats() {
+        $('#statPeople').textContent = PEOPLE.length;
+        let likes = 0, comments = 0;
+        for (const id in state.likes) likes += state.likes[id].count;
+        for (const id in state.comments) comments += state.comments[id].length;
+        $('#statLikes').textContent = likes;
+        $('#statComments').textContent = comments;
+        $('#statUsers').textContent = Object.keys(state.users).length || '—';
+    }
+
+    function renderTrending() {
+        const top = PEOPLE.slice()
+            .map(p => ({
+                ...p,
+                score: (state.likes[p.id]?.count || 0) + (state.comments[p.id]?.length || 0) * 3
+            }))
+            .sort((a, b) => b.score - a.score).slice(0, 4);
+        $('#trendList').innerHTML = top.map((p, i) => `
+            <div class="trend" data-id="${p.id}">
+                <div class="num">0${i+1}</div>
+                <div class="meta">
+                    <b>${escapeHtml(p.name)}</b>
+                    <span>${state.likes[p.id]?.count || 0} ♥ · ${state.comments[p.id]?.length || 0} комм.</span>
+                </div>
+            </div>
+        `).join('');
+        $$('#trendList .trend').forEach(node => {
+            node.addEventListener('click', () => {
+                const id = node.dataset.id;
+                const target = document.querySelector(`.post[data-id="${id}"]`);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    }
+
+    function renderQuote() {
+        const q = QUOTES[new Date().getDate() % QUOTES.length];
+        $('#quoteText').textContent = '«' + q.text + '»';
+        $('#quoteAuthor').textContent = '— ' + q.author;
+    }
+
+    // =========================================================================
+    // AUTH
+    // =========================================================================
+    function openAuth(mode) {
+        state.authMode = mode || 'login';
+        setAuthTab(state.authMode);
+        $('#authModal').classList.add('open');
+        setTimeout(() => $('#authEmail').focus(), 100);
+    }
+    function closeAuth() { $('#authModal').classList.remove('open'); $('#authErr').textContent = ''; }
+    function setAuthTab(mode) {
+        state.authMode = mode;
+        $('#tabLogin').classList.toggle('active', mode === 'login');
+        $('#tabRegister').classList.toggle('active', mode === 'register');
+        $('#nameField').style.display = mode === 'register' ? 'block' : 'none';
+        $('#authTitle').textContent = mode === 'login' ? 'Войти' : 'Регистрация';
+        $('#authSub').textContent = mode === 'login' ? 'Рады видеть вас снова' : 'Создайте аккаунт за минуту';
+        $('#authSubmit').textContent = mode === 'login' ? 'Войти' : 'Создать аккаунт';
+        $('#authErr').textContent = '';
+    }
+
+    function submitAuth(e) {
+        e.preventDefault();
+        const email = $('#authEmail').value.trim().toLowerCase();
+        const password = $('#authPassword').value;
+        const name = $('#authName').value.trim();
+        const err = $('#authErr');
+
+        if (!email || !password) { err.textContent = 'Заполните все поля'; return false; }
+
+        if (state.authMode === 'register') {
+            if (!name) { err.textContent = 'Укажите имя'; return false; }
+            if (state.users[email]) { err.textContent = 'Пользователь уже существует'; return false; }
+            state.users[email] = { email, name, password: btoa(password), createdAt: Date.now() };
+            save('users');
+            state.session = { email, name };
+            save('session');
+            closeAuth(); renderNav(); renderFeed(); renderStats();
+            toast('Добро пожаловать, ' + name + '!');
+        } else {
+            const u = state.users[email];
+            if (!u || u.password !== btoa(password)) { err.textContent = 'Неверный email или пароль'; return false; }
+            state.session = { email: u.email, name: u.name };
+            save('session');
+            closeAuth(); renderNav(); renderFeed();
+            toast('С возвращением, ' + u.name + '!');
+        }
+        return false;
+    }
+
+    function logout() {
+        state.session = null;
+        localStorage.removeItem(STORE.session);
+        $('#userMenu').classList.remove('open');
+        renderNav(); renderFeed();
+        toast('Вы вышли из аккаунта');
+    }
+
+    function renderNav() {
+        const right = $('#navRight');
+        const menu = $('#userMenu');
+        if (state.session) {
+            right.innerHTML = `
+                <button class="btn btn-icon" id="themeBtn" title="Тема">🌓</button>
+                <div class="user-chip" id="userChip">
+                    <div class="avatar">${escapeHtml(initials(state.session.name))}</div>
+                    <span>${escapeHtml(state.session.name)}</span>
+                </div>
+            `;
+            menu.innerHTML = `
+                <div class="head"><b>${escapeHtml(state.session.name)}</b><span>${escapeHtml(state.session.email)}</span></div>
+                <hr>
+                <div class="item">🔖 Мои закладки</div>
+                <div class="item">⚙️ Настройки</div>
+                <hr>
+                <div class="item danger" id="logoutBtn">🚪 Выйти</div>
+            `;
+            $('#userChip').addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('open'); });
+            $('#logoutBtn').addEventListener('click', logout);
+        } else {
+            right.innerHTML = `
+                <button class="btn btn-icon" id="themeBtn" title="Тема">🌓</button>
+                <button class="btn btn-ghost" id="loginBtn">Войти</button>
+                <button class="btn btn-primary" id="registerBtn">Регистрация</button>
+            `;
+            $('#loginBtn').addEventListener('click', () => openAuth('login'));
+            $('#registerBtn').addEventListener('click', () => openAuth('register'));
+            menu.classList.remove('open');
+        }
+        $('#themeBtn').addEventListener('click', toggleTheme);
+    }
+
+    // =========================================================================
+    // THEME
+    // =========================================================================
+    function applyTheme(t) {
+        if (t === 'dark') document.documentElement.style.colorScheme = 'dark';
+        else if (t === 'light') document.documentElement.style.colorScheme = 'light';
+        else document.documentElement.style.colorScheme = 'light dark';
+    }
+    function toggleTheme() {
+        const cur = localStorage.getItem(STORE.theme) || 'auto';
+        const next = cur === 'auto' ? 'light' : cur === 'light' ? 'dark' : 'auto';
+        localStorage.setItem(STORE.theme, next);
+        applyTheme(next);
+        toast('Тема: ' + (next === 'auto' ? 'авто' : next === 'light' ? 'светлая' : 'тёмная'));
+    }
+
+    // =========================================================================
+    // INIT
+    // =========================================================================
+    function init() {
+        applyTheme(localStorage.getItem(STORE.theme) || 'auto');
+        renderBranches();
+        renderFeed();
+        renderStats();
+        renderTrending();
+        renderQuote();
+        renderNav();
+
+        // Search & sort
+        $('#searchInput').addEventListener('input', (e) => { state.search = e.target.value; renderFeed(); });
+        $('#sortSelect').addEventListener('change', (e) => { state.sort = e.target.value; renderFeed(); });
+
+        // Close menu on outside click
+        document.addEventListener('click', (e) => {
+            const menu = $('#userMenu');
+            if (menu.classList.contains('open') && !menu.contains(e.target)) menu.classList.remove('open');
+        });
+
+        // Close modal on backdrop click / escape
+        $('#authModal').addEventListener('click', (e) => { if (e.target.id === 'authModal') closeAuth(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuth(); });
+
+        // Scroll progress
+        const updateProgress = () => {
+            const h = document.documentElement;
+            const pct = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100;
+            $('#progress').style.width = pct + '%';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+
+        // Deep-link to a post via hash
+        if (location.hash) {
+            setTimeout(() => {
+                const el = document.querySelector(`.post[data-id="${location.hash.slice(1)}"]`);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 400);
+        }
+    }
+
+    // Expose for inline handlers
+    window.openAuth = openAuth; window.closeAuth = closeAuth;
+    window.setAuthTab = setAuthTab; window.submitAuth = submitAuth;
+
+    init();
+    </script>
 </body>
 </html>
