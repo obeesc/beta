@@ -2,141 +2,233 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Beta Pet</title>
-    <!-- Подключаем скрипт Telegram Web App -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личности Бурятии</title>
     <style>
+        :root {
+            --bg: #1a1410;
+            --bg-card: #2a1f17;
+            --accent: #d4a24c;
+            --accent-soft: #b8862f;
+            --text: #f1e8d8;
+            --text-muted: #b3a892;
+            --border: #3d2e22;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--tg-theme-bg-color, #1e1e24);
-            color: var(--tg-theme-text-color, #ffffff);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        header {
             text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(180deg, #2a1f17 0%, var(--bg) 100%);
+            border-bottom: 2px solid var(--accent-soft);
+            position: relative;
         }
-        h1 { margin-top: 10px; font-size: 24px; color: #ffcc00; }
-        .stats { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
-        .pet-container {
-            width: 250px;
-            height: 250px;
-            background: #2a2a35;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            margin-bottom: 30px;
-            transition: transform 0.1s;
+
+        header::before {
+            content: '☸';
+            display: block;
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 16px;
         }
-        .pet-container:active { transform: scale(0.95); } /* Анимация при тапе */
-        #petImage {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
+
+        h1 {
+            font-size: 42px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: normal;
         }
-        .btn {
-            background-color: #ffcc00;
-            color: #000;
-            border: none;
-            padding: 15px 30px;
+
+        .subtitle {
+            color: var(--text-muted);
+            font-style: italic;
             font-size: 18px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .btn:disabled { background-color: #555; color: #888; box-shadow: none; }
-        #loading { display: none; color: #aaa; margin-top: 10px; font-size: 14px;}
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 17px;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 32px 28px;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .card-years {
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .card h2 {
+            font-size: 22px;
+            color: var(--text);
+            margin-bottom: 6px;
+            font-weight: normal;
+        }
+
+        .card-role {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card p {
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            background: #15100c;
+        }
+
+        footer .ornament {
+            color: var(--accent);
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 32px; }
+            header { padding: 50px 20px 30px; }
+            main { padding: 40px 16px; }
+            .card { padding: 24px 20px; }
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Личности Бурятии</h1>
+        <p class="subtitle">Выдающиеся люди, прославившие землю у Байкала</p>
+    </header>
 
-    <h1>Beta Pet 🐾</h1>
-    <div class="stats">Монеты: <span id="coins">0</span> 🪙</div>
-    
-    <!-- Контейнер для тапов -->
-    <div class="pet-container" id="tapZone">
-        <img id="petImage" src="https://image.pollinations.ai/prompt/cute%20pixel%20art%20baby%20monster%20white%20background" alt="Pet">
-    </div>
+    <main>
+        <p class="intro">
+            Бурятия — край, давший миру духовных учителей, художников, учёных и мастеров слова.
+            Здесь собраны имена тех, чьё наследие продолжает вдохновлять.
+        </p>
 
-    <button id="evolveBtn" class="btn" disabled>Эволюция (50 🪙)</button>
-    <div id="loading">Генерация новой формы... ИИ думает 🧠</div>
+        <div class="grid">
+            <article class="card">
+                <div class="card-years">1852 — 1927</div>
+                <h2>Агван Доржиев</h2>
+                <div class="card-role">Буддийский лама, дипломат, просветитель</div>
+                <p>
+                    Учитель Далай-ламы XIII, дипломат при дворе Российской империи.
+                    Инициатор строительства буддийского храма в Санкт-Петербурге —
+                    первого в Европе. Автор бурятского алфавита «вагиндра».
+                </p>
+            </article>
 
-    <script>
-        // Инициализируем Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+            <article class="card">
+                <div class="card-years">1852 — 1927</div>
+                <h2>Хамбо лама Итигэлов</h2>
+                <div class="card-role">XII Пандито Хамбо лама</div>
+                <p>
+                    Глава буддистов Восточной Сибири, ушедший в медитацию в 1927 году.
+                    Его тело, поднятое из земли в 2002 году, по сей день остаётся
+                    нетленным — феномен, изучаемый учёными по всему миру.
+                </p>
+            </article>
 
-        // Игровая логика
-        let coins = 0;
-        let level = 1;
-        const evolveCost = 50;
-        
-        // Массив с идеями для эволюции (чтобы ИИ генерировал новые промпты)
-        const evolutions = [
-            "with fire wings", 
-            "wearing futuristic armor", 
-            "cyborg version with laser eyes", 
-            "ultimate god mode glowing"
-        ];
+            <article class="card">
+                <div class="card-years">1889 — 1959</div>
+                <h2>Хоца Намсараев</h2>
+                <div class="card-role">Писатель, основоположник бурятской литературы</div>
+                <p>
+                    Народный поэт Бурятии, драматург и прозаик. Его сказы, поэмы
+                    и пьесы стали фундаментом современной литературы республики.
+                    Имя классика носит Бурятский академический театр драмы.
+                </p>
+            </article>
 
-        const coinsDisplay = document.getElementById('coins');
-        const tapZone = document.getElementById('tapZone');
-        const petImage = document.getElementById('petImage');
-        const evolveBtn = document.getElementById('evolveBtn');
-        const loadingText = document.getElementById('loading');
+            <article class="card">
+                <div class="card-years">1948 — 1971</div>
+                <h2>Намжил Нимбуев</h2>
+                <div class="card-role">Поэт</div>
+                <p>
+                    Лирик с трагически короткой судьбой — ушёл из жизни в 23 года,
+                    оставив после себя стихи невероятной глубины. Его «Стреноженные
+                    молнии» стали визитной карточкой бурятской поэзии XX века.
+                </p>
+            </article>
 
-        // Логика тапа (клика)
-        tapZone.addEventListener('click', () => {
-            coins++;
-            coinsDisplay.innerText = coins;
-            
-            // Если накопили на эволюцию - включаем кнопку
-            if (coins >= evolveCost && level <= evolutions.length) {
-                evolveBtn.disabled = false;
-            }
-            
-            // Легкая вибрация телефона при клике (работает в ТГ)
-            tg.HapticFeedback.impactOccurred('light');
-        });
+            <article class="card">
+                <div class="card-years">р. 1967</div>
+                <h2>Даши Намдаков</h2>
+                <div class="card-role">Скульптор, художник</div>
+                <p>
+                    Всемирно известный мастер, чьи бронзовые работы выставлены
+                    в Лондоне, Нью-Йорке и Москве. Соединяет древние степные
+                    мотивы с современной пластикой. Член Российской академии художеств.
+                </p>
+            </article>
 
-        // Логика Эволюции
-        evolveBtn.addEventListener('click', () => {
-            if (coins >= evolveCost && level <= evolutions.length) {
-                coins -= evolveCost;
-                coinsDisplay.innerText = coins;
-                evolveBtn.disabled = true;
-                
-                loadingText.style.display = 'block';
-                petImage.style.opacity = '0.5';
+            <article class="card">
+                <div class="card-years">р. 1949</div>
+                <h2>Баир Дугаров</h2>
+                <div class="card-role">Поэт, учёный-востоковед</div>
+                <p>
+                    Народный поэт Бурятии, доктор филологических наук.
+                    Исследователь бурятского эпоса и шаманских традиций.
+                    Лауреат государственных премий за вклад в литературу.
+                </p>
+            </article>
+        </div>
+    </main>
 
-                // Формируем новый запрос для бесплатного ИИ
-                let newTrait = evolutions[level - 1];
-                let prompt = `cute pixel art monster ${newTrait} white background high quality`;
-                let encodedPrompt = encodeURIComponent(prompt);
-                
-                // Случайный seed, чтобы картинка точно обновилась
-                let randomSeed = Math.floor(Math.random() * 10000);
-                
-                let newImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${randomSeed}`;
-
-                // Грузим новую картинку
-                petImage.src = newImageUrl;
-                
-                petImage.onload = () => {
-                    petImage.style.opacity = '1';
-                    loadingText.style.display = 'none';
-                    level++;
-                    tg.HapticFeedback.notificationOccurred('success');
-                };
-            }
-        });
-    </script>
+    <footer>
+        <div class="ornament">❋</div>
+        <div>Эхэ нютаг — родная земля</div>
+    </footer>
 </body>
 </html>
