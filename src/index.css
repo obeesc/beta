@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    @apply h-full;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+    @apply tracking-tight text-ink-900;
+  }
+
+  ::selection {
+    background: rgba(31, 74, 122, 0.15);
+  }
+}
+
+@layer components {
+  .surface {
+    @apply bg-white rounded-2xl border border-ink-100 shadow-soft;
+  }
+
+  .surface-hover {
+    @apply transition-all duration-300 ease-out-soft
+           hover:-translate-y-0.5 hover:shadow-lift hover:border-ink-200;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full
+           px-3 py-1 text-xs font-medium
+           bg-ink-100 text-ink-700;
+  }
+
+  .chip-baikal { @apply bg-baikal-50 text-baikal-700; }
+  .chip-sand   { @apply bg-sand-50  text-sand-700; }
+  .chip-teal   { @apply bg-teal-50  text-teal-700; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           rounded-full px-5 py-2.5 text-sm font-semibold
+           transition-all duration-200 ease-out-soft
+           focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-baikal-500 focus-visible:ring-offset-2;
+  }
+  .btn-primary { @apply btn bg-baikal-700 text-white hover:bg-baikal-900; }
+  .btn-ghost   { @apply btn text-ink-700 hover:bg-ink-100; }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/60;
+  }
+}
